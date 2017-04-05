@@ -1,6 +1,5 @@
 require 'httparty'
 require 'pry'
-require 'json'
 
 class Kele
 	include HTTParty
