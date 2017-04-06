@@ -17,6 +17,15 @@ class Kele
 		JSON.parse(response.body)
 	end
 
+	def get_mentor_availability(mentor_id)
+		response = self.class.get(BASE_URI + "/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token })
+		JSON.parse(response.body).each { |slot| puts slot }
+	end
+
+	def get_mentor_id
+		get_me["current_enrollment"]["mentor_id"].to_i
+	end
+
 	private
 
 	def retrieve_auth_token
