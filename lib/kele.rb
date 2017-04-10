@@ -1,8 +1,10 @@
 require 'httparty'
 require 'pry'
+require './lib/roadmap.rb'
 
 class Kele
 	include HTTParty
+	include Roadmap
 	BASE_URI = 'https://www.bloc.io/api/v1'
 
 	def initialize(email, password)
