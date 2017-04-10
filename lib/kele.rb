@@ -14,7 +14,6 @@ class Kele
 	end
 
 	def get_me
-		retrieve_auth_token
 		response = self.class.get(BASE_URI + '/users/me', headers: {"authorization" => @auth_token })
 		JSON.parse(response.body)
 	end
@@ -23,6 +22,14 @@ class Kele
 		mentor_id = get_mentor_id
 		response = self.class.get(BASE_URI + "/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token })
 		JSON.parse(response.body).each { |slot| puts slot }
+	end
+
+	def get_messages
+		values = {
+			"page": 2,
+		}
+		response = self.class.get(BASE_URI + "/message_threads/", values: values, headers: {"authorization" => @auth_token})
+		JSON.parse(response.body)
 	end
 
 	private
