@@ -24,11 +24,13 @@ class Kele
 		JSON.parse(response.body).each { |slot| puts slot }
 	end
 
-	def get_messages
-		values = {
-			"page": 2,
-		}
-		response = self.class.get(BASE_URI + "/message_threads/", values: values, headers: {"authorization" => @auth_token})
+	def get_messages(page=1)
+		response = self.class.get(BASE_URI + "/message_threads/", body: {page: page}, headers: {"authorization" => @auth_token})
+		JSON.parse(response.body)
+	end
+
+	def send_message(sender, recipient_id, body, subject=nil, token=nil)
+		response = self.class.post(BASE_URI + "/messages", values: {sender: sender, recipient_id: recipient_id, token: token, subject: subject, body: body}, headers: {"authorization" => @auth_token})
 		JSON.parse(response.body)
 	end
 
