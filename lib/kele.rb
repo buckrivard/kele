@@ -14,7 +14,6 @@ class Kele
 	end
 
 	def get_me
-		retrieve_auth_token
 		response = self.class.get(BASE_URI + '/users/me', headers: {"authorization" => @auth_token })
 		JSON.parse(response.body)
 	end
@@ -23,6 +22,19 @@ class Kele
 		mentor_id = get_mentor_id
 		response = self.class.get(BASE_URI + "/mentors/#{mentor_id}/student_availability", headers: {"authorization" => @auth_token })
 		JSON.parse(response.body).each { |slot| puts slot }
+	end
+
+	def get_messages(page=1)
+		response = self.class.get(BASE_URI + "/message_threads/", body: {page: page}, headers: {"authorization" => @auth_token})
+		JSON.parse(response.body)
+	end
+
+	def send_message(mentor_id, message)
+		options = {	
+			headers: { authorization: @auth_token },
+			body: { sender: @email, recipient_id: mentor_id.to_s, stripped_text: message }
+		}
+		response = self.class.post(BASE_URI + "/messages",  options)
 	end
 
 	private
