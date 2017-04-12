@@ -36,6 +36,23 @@ class Kele
 		}
 		response = self.class.post(BASE_URI + "/messages",  options)
 	end
+	
+	def create_submission(checkpoint_id, comment)
+		options = {
+			headers: { authorization: @auth_token },
+			body: { enrollment_id: get_me["current_enrollment"]["id"], checkpoint_id: checkpoint_id, comment: comment.to_s }
+		}
+		response = self.class.post(BASE_URI + "/checkpoint_submissions", options)
+		puts response
+	end
+
+	def update_submission(id, checkpoint_id, comment)
+		options = {
+			headers: { authorization: @auth_token },
+			body: { enrollment_id: get_me["current_enrollment"]["id"], id: id, checkpoint_id: checkpoint_id, comment: comment.to_s }
+		}
+		response = self.class.put(BASE_URI + "/checkpoint_submissions/#{id}", options)
+	end
 
 	private
 
