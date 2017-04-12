@@ -29,9 +29,12 @@ class Kele
 		JSON.parse(response.body)
 	end
 
-	def send_message(sender, recipient_id, body, subject=nil, token=nil)
-		response = self.class.post(BASE_URI + "/messages", values: {sender: sender, recipient_id: recipient_id, token: token, subject: subject, body: body}, headers: {"authorization" => @auth_token})
-		JSON.parse(response.body)
+	def send_message(mentor_id, message)
+		options = {	
+			headers: { authorization: @auth_token },
+			body: { sender: @email, recipient_id: mentor_id.to_s, stripped_text: message }
+		}
+		response = self.class.post(BASE_URI + "/messages",  options)
 	end
 
 	private
